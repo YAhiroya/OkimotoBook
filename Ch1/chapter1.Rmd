@@ -1,0 +1,33 @@
+---
+title: "沖本本　第一章"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook: default
+---
+#問題
+##弱定常過程において、$\gamma_{k}=\gamma_{-k}$が成立することを確認せよ
+とりあえず、弱定常過程はp.24に載っている$y_{t}=\mu+\epsilon_{t}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$とします。
+採用するデータは、`JohnsonJohnson`にします。このデータは1960〜1980年におけるジョンソン＆ジョンソンのシェアあたりの四半期収益を示す時系列データです。
+そして、$k=5$とすることにします。
+```{r}
+# 対象データ
+dataset <- JohnsonJohnson
+# datasetの平均と標準偏差
+mu <- mean(dataset); sd <- sd(dataset)
+# ホワイトノイズ
+set.seed(1)
+white.noise <- rnorm(n = length(dataset), mean = 0, sd = sd)
+white.noise_ts <- ts(white.noise, start = 1960, frequency = 4)
+# 弱定常過程
+y_t <- mu + white.noise_ts
+# γ_k
+vector1 <- as.vector(y_t)
+gamma_k <- stats::lag(x=vector1, k=5)
+# γ_-k
+vector2 <- as.vector(y_t)
+gamma_minusk <- stats::lag(x=,vector2, k=-5)
+# 問題文の式が成り立つか確認
+table <- cbind.data.frame(gamma_k, gamma_minusk)
+table
+```
+
