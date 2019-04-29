@@ -190,7 +190,7 @@ p.17に掲載されている結果と同等な結果が得られました。
 ```{r}
 targetData2 <- diff(log(economicdata$cpi))
 # 自己相関の検定
-acf(targetData2, type = "correlation", main="日本の経済成長率のコレログラム",
+acf(targetData2, type = "correlation", main="CPI変化率のコレログラム",
     xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
 # Ljung and Boxの統計量によるかばん検定
 box.t2 <- apply(as.matrix(lag), 1, function(x) {

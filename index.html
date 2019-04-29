@@ -133,12 +133,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>弱定常過程はp.24に載っている<span class="math inline">\(y_{t}=\mu+\epsilon_{t}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\)</span> 　(1.8)とします。 採用するデータは、<code>JohnsonJohnson</code>にします。このデータは1960〜1980年におけるジョンソン＆ジョンソンのシェアあたりの四半期収益を示す時系列データです。 それでは、問題に取り組んでいきます。</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 外部パッケージ</span>
 <span class="kw">library</span>(tidyverse)</code></pre></div>
-<pre><code>## -- Attaching packages ------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
+<pre><code>## -- Attaching packages ---------------------------------------------------------------------------------------------- tidyverse 1.2.1 --</code></pre>
 <pre><code>## √ ggplot2 2.2.1     √ purrr   0.2.4
 ## √ tibble  1.4.1     √ dplyr   0.7.4
 ## √ tidyr   0.7.2     √ stringr 1.2.0
 ## √ readr   1.1.1     √ forcats 0.2.0</code></pre>
-<pre><code>## -- Conflicts ---------------------------------------------------------------------- tidyverse_conflicts() --
+<pre><code>## -- Conflicts ------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 対象データ</span>
@@ -336,7 +336,7 @@ table.box.t</code></pre></div>
 <p><em>(5) 他のデータを用いて自己相関の検定を行え。</em> ここでは、消費者物価指数（CPI) を対象とします。</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">targetData2 &lt;-<span class="st"> </span><span class="kw">diff</span>(<span class="kw">log</span>(economicdata<span class="op">$</span>cpi))
 <span class="co"># 自己相関の検定</span>
-<span class="kw">acf</span>(targetData2, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;日本の経済成長率のコレログラム&quot;</span>,
+<span class="kw">acf</span>(targetData2, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;CPI変化率のコレログラム&quot;</span>,
     <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
 <p><img src="chapter1_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ljung and Boxの統計量によるかばん検定</span>
