@@ -1,0 +1,211 @@
+---
+title: "沖本本　第一章"
+site: bookdown::bookdown_site
+output:
+  bookdown::gitbook: default
+---
+
+# 問題（p.17）
+2019年のGWは10連休ということで、私[HRY](https://twitter.com/hiyakebaka)は昨日は飲み会に誘われていたものの非リアであり、10連休のほとんどを引きこもるつもりでいます。ですが、このせっかくの10連休はアクティブな引きこもりになろうということで、指導教授から「VARモデルについては、これを見といて。」と渡された[『経済・ファイナンスデータの　計量時系列分析』](https://www.amazon.co.jp/%E7%B5%8C%E6%B8%88%E3%83%BB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%8A%E3%83%B3%E3%82%B9%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A8%88%E9%87%8F%E6%99%82%E7%B3%BB%E5%88%97%E5%88%86%E6%9E%90-%E7%B5%B1%E8%A8%88%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%83%BC-%E6%B2%96%E6%9C%AC-%E7%AB%9C%E7%BE%A9/dp/4254127928)（通称：沖本本）を読み直して、章末問題を解いていければと思っています。もし解答に間違い等があれば、私のTwitter垢にご指摘のコメントを頂ければ幸いです。
+
+
+## 弱定常過程において、$\gamma_{k}=\gamma_{-k}$が成立することを確認せよ。
+弱定常過程はp.24に載っている$y_{t}=\mu+\epsilon_{t}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$  　(1.8)とします。
+採用するデータは、`JohnsonJohnson`にします。このデータは1960〜1980年におけるジョンソン＆ジョンソンのシェアあたりの四半期収益を示す時系列データです。
+それでは、問題に取り組んでいきます。
+
+```{r}
+# 外部パッケージ
+library(tidyverse)
+
+# 対象データ
+dataset <- JohnsonJohnson
+# datasetの平均と標準偏差
+mu <- mean(dataset); sd <- sd(dataset)
+# 定数k
+k <- runif(1, min = 1, max = length(dataset)) %>% as.integer()
+# ホワイトノイズ
+set.seed(1)
+white.noise <- rnorm(n = length(dataset), mean = 0, sd = sd)
+white.noise_ts <- ts(white.noise, start = 1)
+# 弱定常過程
+y_t <- mu + white.noise_ts
+# k次のラグデータ
+y_t_k <- stats::lag(x=y_t, k=k)
+gamma_k_t <- cov(y_t, y_t_k)
+# γ_-k
+y_t_minusk <- stats::lag(x=y_t, k=-k)
+gamma_minusk <- cov(y_t, y_t_minusk)
+# 問題文の式が成り立つか確認
+gamma_k_t == gamma_minusk
+```
+これで、視覚的に$\gamma_{k}=\gamma_{-k}$が成立することが確認できます。
+
+
+## $y_{t}=\mu+\epsilon_{t}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$　(1.8)が弱定常過程であることを確認せよ。
+任意のtとkに対して
+
+$\begin{aligned} E\left(y_{t}\right) &=\mu \\ \operatorname{Cov}\left(y_{t}, y_{t-k}\right) &=E\left[\left(y_{t}-\mu\right)\left(y_{t-k}-\mu\right)\right]=\gamma_{k} \end{aligned}$
+
+が成立する場合、過程は弱定常（定常）といわれます。(p.8)
+
+対象とする過程が定常過程かどうかは、[ADF検定](https://ja.wikipedia.org/wiki/%E6%8B%A1%E5%BC%B5%E3%83%87%E3%82%A3%E3%83%83%E3%82%AD%E3%83%BC%E2%80%93%E3%83%95%E3%83%A9%E3%83%BC%E6%A4%9C%E5%AE%9A)により確認することができます。ADF検定とは、帰無仮説「過程が単位根過程である」が棄却されれば定常過程であるとする検定です。単位根過程については、5章で詳しく述べられています。
+```{r}
+tseries::adf.test(y_t)
+```
+この結果には、p値が0.01以下であることが示されています。よって、帰無仮説は棄却され、$y_{t}=\mu+\epsilon_{t}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$　(1.8)は定常過程であるといえます。
+
+1.1と1.2の数式に基づいた解法は[こちら](https://qiita.com/aokikenichi/items/2c833ecd4ef2e3c77443)のQiita記事をご覧になるとよいでしょう。
+
+## 正規ホワイトノイズを発生させ、図1.3と同様の図を描け。
+```{r}
+# 平均0、標準偏差1
+wn1 <- data.frame(x = 1:100, y = rnorm(100, mean = 0, sd = 1))
+ggplot(wn1) + geom_line(aes(x=x, y=y)) + ggtitle("(a)μ=0, σ=1") + xlim(0, 100)
+# 平均2、標準偏差1
+wn2 <- data.frame(x = 1:100, y = rnorm(100, mean = 2, sd = 1))
+ggplot(wn2) + geom_line(aes(x=x, y=y)) + ggtitle("(b)μ=2, σ=1") + xlim(0, 100)
+# 平均―2、標準偏差1
+wn3 <- data.frame(x = 1:100, y = rnorm(100, mean = -2, sd = 1))
+ggplot(wn3) + geom_line(aes(x=x, y=y)) + ggtitle("(c)μ=-2, σ=1") + xlim(0, 100)
+# 平均0、標準偏差2
+wn4 <- data.frame(x = 1:100, y = rnorm(100, mean = 0, sd = 2))
+ggplot(wn4) + geom_line(aes(x=x, y=y)) + ggtitle("(d)μ=0, σ=2") + xlim(0, 100)
+# 平均0、標準偏差3
+wn5 <- data.frame(x = 1:100, y = rnorm(100, mean = 0, sd = 3))
+ggplot(wn5) + geom_line(aes(x=x, y=y)) + ggtitle("(e)μ=0, σ=3") + xlim(0, 100)
+# 平均2、標準偏差2
+wn6 <- data.frame(x = 1:100, y= rnorm(100, mean = 2, sd = 2))
+ggplot(wn6) + geom_line(aes(x=x, y=y)) + ggtitle("(f)μ=2, σ=2") + xlim(0, 100)
+```
+
+## 弱定常過程であるが、強定常過程でない確率過程の例を考えよ。
+この問いに関しては、正直分かりませんw
+
+少なくともその一つとして、今までに扱った（1.8）式のモデルはそれに当てはまるはずです。
+
+$y_{t}=\mu+\epsilon_{t}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$
+
+強定常性をもった定常過程の例として代表的なものは、定義1.3(p.11)にあるiid系列が挙がります。
+
+$y_{t} \sim i i d\left(\mu, \sigma^{2}\right)$
+
+## ホームページからeconomicdata.xlsをダウンロードして以下の問いに答えよ。
+※2019年4月29日現在、[沖本先生のホームページ](http://www.geocities.jp/tatsuyoshi_okimoto/books/tsa.html)が移転されており、当該データがダウンロードできない状態になっています。私は以前ダウンロードしたものを何とか引っ張り出してきました（汗）
+
+このデータは、1975年1月から2005年4月までの月次データで内容は以下の通りです。
+
+- date: 日付
+- topix: 東証株価指数（TOPIX）
+- exrate: 実効為替レート
+- indprod: 季調済み鉱工業生産指数
+- cpi: 消費者物価指数（CPI）
+- saunemp: 季調済み失業率
+- intrate: コールレート
+
+```{r}
+economicdata <- read_csv("~\\OkimotoBook\\economicdata.csv")
+head(economicdata)
+```
+*(1) 図1.1と同様なグラフを描け*
+```{r}
+# TOPIX
+topix <- ts(economicdata$topix, start = c(1975,1), frequency = 12)
+ts.plot(topix, gpars = list(main="TOPIX", xlab="year", ylab="", ylim=c(0, 3500)))
+abline(h=seq(0, 3500, 500), col="gray", lty=2)
+# 実効為替レート
+exrate <- ts(economicdata$exrate, start = c(1975,1), frequency = 12)
+ts.plot(exrate, gpars = list(main="実効為替レート", xlab="year", ylab="", ylim=c(0, 120)))
+abline(h=seq(0, 120, 20), col="gray", lty=2)
+# 鉱工業生産指数
+indprod <- ts(economicdata$indprod, start = c(1975,1), frequency = 12)
+ts.plot(indprod, gpars = list(main="鉱工業生産指数", xlab="year", ylab="", ylim=c(0, 120)))
+abline(h=seq(0, 120, 20), col="gray", lty=2)
+# CPI
+cpi <- ts(economicdata$cpi, start = c(1975,1), frequency = 12)
+ts.plot(cpi, gpars = list(main="CPI", xlab="year", ylab="", ylim=c(0, 120)))
+abline(h=seq(0, 120, 20), col="gray", lty=2)
+# 失業率
+saunemp <- ts(economicdata$saunemp, start = c(1975,1), frequency = 12)
+ts.plot(saunemp, gpars = list(main="失業率", xlab="year", ylab="", ylim=c(0, 6)))
+abline(h=seq(0, 6, 1), col="gray", lty=2)
+# コールレート
+intrate <- ts(economicdata$intrate, start = c(1975,1), frequency = 12)
+ts.plot(intrate, gpars = list(main="コールレート", xlab="year", ylab="", ylim=c(0, 14)))
+abline(h=seq(0, 14, 2), col="gray", lty=2)
+```
+
+*(2) topix, extrate, indprodの対数差分系列を計算せよ。*
+```{r}
+# 対数差分系列
+topix.d <- diff(log(topix), lag = 1, differences = 1)
+exrate.d <- diff(log(exrate), lag = 1, differences = 1)
+indprod.d <- diff(log(indprod),lag = 1, differences = 1)
+# データフレーム化
+df.diff <- cbind.data.frame(topix.d, exrate.d, indprod.d)
+head(df.diff)
+```
+
+*(3) 図1.2と同様なグラフを描け。*
+```{r}
+# topix.d
+ts.plot(topix.d*100, gpars = list(main="TOPIXの変化率", 
+                                  xlab="year", ylab="", ylim=c(-20, 15)))
+abline(h=seq(-20, 15, 5), col="gray", lty=2)
+# exrate.d
+ts.plot(exrate.d*100, gpars = list(main="実効為替レートの変化率", 
+                                   xlab="year", ylab="", ylim=c(-8, 12)))
+abline(h=seq(-8, 12, 2), col="gray", lty=2)
+# indprod.d
+ts.plot(indprod.d*100, gpars = list(main="鉱工業生産指数の変化率",
+                                    xlab="year", ylab="", ylim=c(-5, 5)))
+abline(h=seq(-5, 5, 1), col="gray", lty=2)
+```
+
+*(4) indprodの変化率に対して、自己相関の検定を行い、図1.4と表1.1の結果を確認せよ。*
+```{r}
+# 自己相関の検定
+acf(diff(economicdata$indprod), type = "correlation", main="日本の経済成長率のコレログラム",
+    xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
+```
+ラグ次数1~4,13,15に有意水準5％の有意な自己相関がみられます。続いて、かばん検定を行います。
+```{r}
+targetData <- diff(log(economicdata$indprod))
+lag <- 1:10
+# Ljung and Boxの統計量によるかばん検定
+box.t <- apply(as.matrix(lag), 1, function(x) {
+  tmp = Box.test(targetData, type = "Ljung-Box", lag = x)
+  return(c(round(tmp$statistic, digits = 2), round(tmp$p.value, digits = 3)))
+})
+
+table.box.t <- data.frame(box.t)
+rownames(table.box.t) <- c("Q(m)", "p-value")
+colnames(table.box.t) <- lag
+table.box.t
+```
+p.17に掲載されている結果と同等な結果が得られました。
+
+*(5) 他のデータを用いて自己相関の検定を行え。*
+ここでは、消費者物価指数（CPI) を対象とします。
+```{r}
+targetData2 <- diff(log(economicdata$cpi))
+# 自己相関の検定
+acf(targetData2, type = "correlation", main="日本の経済成長率のコレログラム",
+    xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
+# Ljung and Boxの統計量によるかばん検定
+box.t2 <- apply(as.matrix(lag), 1, function(x) {
+  tmp = Box.test(targetData2, type = "Ljung-Box", lag = x)
+  return(c(round(tmp$statistic, digits = 2), round(tmp$p.value, digits = 3)))
+})
+
+table.box.t2 <- data.frame(box.t2)
+rownames(table.box.t2) <- c("Q(m)", "p-value")
+colnames(table.box.t2) <- lag
+table.box.t2
+
+```
+
+消費者物価指数については、多くのラグ次数で有意な自己相関がみられます。特に、ラグ次数12が顕著ですね。ラグ次数12とは、ちょうど1年分のラグですから、当然といえば当然ですかね。
+p値についても10期までのすべてのｍで0.05以下となっており、CPIデータが自己相関を持つことは間違いないですね。
+
+以上です。次の章の問題もマイペースにやっていこうと思います。とりあえず、この後は中日阪神戦でも見ようかな…
