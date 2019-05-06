@@ -222,3 +222,7 @@ $$
 - 反転可能なモデル：モデル(c), (f)
 
 という結論になります。
+
+## 2.3. MA(2)過程 $$y_{t}=\mu+\epsilon_{t}+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$$ について、以下の問いに答えよ。 {-}
+
+
