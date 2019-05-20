@@ -72,7 +72,14 @@
 <li class="chapter" data-level="" data-path=""><a href="#f"><i class="fa fa-check"></i>モデル(f)について</a></li>
 <li class="chapter" data-level="" data-path=""><a href="#e381bee381a8e38281"><i class="fa fa-check"></i>まとめ</a></li>
 </ul></li>
-<li><a href="#ma2-y_tmuepsilon_ttheta_1epsilon_t-1theta_2epsilon_t-2-epsilon_t-sim-w-.-n-.leftsigma2right-">2.3. MA(2)過程 <span class="math display">\[y_{t}=\mu+\epsilon_{t}+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\]</span> について、以下の問いに答えよ。</a></li>
+<li><a href="#ma2-y_tmuepsilon_ttheta_1epsilon_t-1theta_2epsilon_t-2-epsilon_t-sim-w-.-n-.leftsigma2right-">2.3. MA(2)過程 <span class="math display">\[y_{t}=\mu+\epsilon_{t}+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\]</span> について、以下の問いに答えよ。</a><ul>
+<li><a href="#ey_t">(1) <span class="math inline">\(E(y_{t})\)</span>を求めよ。</a></li>
+<li><a href="#gamma_0">(2) <span class="math inline">\(\gamma_{0}\)</span>を求めよ。</a></li>
+<li><a href="#gamma_1">(3) <span class="math inline">\(\gamma_{1}\)</span>を求めよ。</a></li>
+<li><a href="#gamma_2">(4) <span class="math inline">\(\gamma_{2}\)</span>を求めよ。</a></li>
+<li><a href="#k-geq-3gamma_k-0">(5) <span class="math inline">\(k \geq 3\)</span>に対して、<span class="math inline">\(\gamma_{k} = 0\)</span>となることを確認せよ。</a></li>
+</ul></li>
+<li><a href="#arma11-y_t-c-y_t-1-epsilon_t-theta_1epsilon_t-1-epsilon_t-sim-w-.-n-.leftsigma2right">2.4. ARMA(1,1)過程 <span class="math display">\[y_{t} = c + y_{t-1} + \epsilon_{t} + \theta_1\epsilon_{t-1}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\]</span>について、以下の問いに答えよ。</a></li>
 </ul></li>
 </ul>
 
@@ -96,7 +103,7 @@
 </div>
 <div id="p.54" class="section level1 unnumbered">
 <h1>2. 問題(p.54)</h1>
-<p>どうも、令和初のGWで生活リズムが夜型にシフトしてしまっている<a href="https://twitter.com/hiyakebaka">HRY</a>です。 <a href="https://yahiroya.github.io/OkimotoBook/">前回</a>の続きで、第2章の章末問題をやっていこうと思います。</p>
+<p>どうも、<a href="https://twitter.com/hiyakebaka">HRY</a>です。 <a href="https://yahiroya.github.io/OkimotoBook/">前回</a>の投稿から間がかなり空いてしまいましたが、つづきの第2章の章末問題をやっていこうと思います。</p>
 <div id="ar22.182.19" class="section level2 unnumbered">
 <h2>2.1. AR(2)過程(2.18)の定常条件が(2.19)で与えられることを確認せよ。</h2>
 <p>まず、(2.18)のAR(2) モデルが、 <span class="math display">\[
@@ -249,6 +256,58 @@ z &amp;= -2 \Rightarrow |z| &gt; 1
 </div>
 <div id="ma2-y_tmuepsilon_ttheta_1epsilon_t-1theta_2epsilon_t-2-epsilon_t-sim-w-.-n-.leftsigma2right-" class="section level2 unnumbered">
 <h2>2.3. MA(2)過程 <span class="math display">\[y_{t}=\mu+\epsilon_{t}+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\]</span> について、以下の問いに答えよ。</h2>
+<p>まず、問題に入る前に定理2.1(p.24)のMA(q)過程の性質の確認をしておきましょう。</p>
+<p><span class="math display">\[
+\begin{array}{l}
+{\text {1. } E(y_{t})=\mu} \\
+{\text {2. } \gamma_{0}=\operatorname{Var}\left(y_{t}\right)=\left(1+\theta_{1}^{2}+\cdots+\theta_{q}^{2}\right) \sigma^{2}} \\
+{\text {3. } \gamma_{k}=\left\{\begin{array}{ll}{\left(\theta_{k}+\theta_{1} \theta_{k+1}+\cdots+\theta_{q-k} \theta_{q}\right) \sigma^{2},} &amp; {1 \leq k \leq q} \\ {0,} &amp; {k \geq q+1}\end{array}\right.} \\
+{\text {4. } MA過程は常に定常} \\
+{\text {5. } \rho_{k}=\left\{\begin{array}{ll}{\frac{\theta_{k}+\theta_{1} \theta_{k+1}+\cdots+\theta_{q-k} \theta_{q}}{1+\theta_{1}^{2}+\cdots+\theta_{q}^{2}},} &amp; {1 \leq k \leq q} \\ {0,} &amp; {k \geq q+1}\end{array}\right.}
+\end{array}
+\]</span></p>
+<div id="ey_t" class="section level3 unnumbered">
+<h3>(1) <span class="math inline">\(E(y_{t})\)</span>を求めよ。</h3>
+<p>MA(q)過程の性質1より、<span class="math inline">\(E(y_{t}) = \mu\)</span>となります。</p>
+</div>
+<div id="gamma_0" class="section level3 unnumbered">
+<h3>(2) <span class="math inline">\(\gamma_{0}\)</span>を求めよ。</h3>
+<p>性質2より、<span class="math inline">\(\gamma_{0} = (1 + \theta_{1}^{2} + \theta_{2}^{2}) \sigma^{2}\)</span>となります。</p>
+</div>
+<div id="gamma_1" class="section level3 unnumbered">
+<h3>(3) <span class="math inline">\(\gamma_{1}\)</span>を求めよ。</h3>
+<p>性質3より、<span class="math inline">\(\gamma_{1} = (\theta_{1} + \theta_{1} \theta_{2}) \sigma^{2}\)</span>となります。</p>
+</div>
+<div id="gamma_2" class="section level3 unnumbered">
+<h3>(4) <span class="math inline">\(\gamma_{2}\)</span>を求めよ。</h3>
+<p>性質3より、<span class="math inline">\(\gamma_{2} = (\theta_{1} + \theta_{1}\theta_{2} + \theta_{2}) \sigma^{2}\)</span>となります。</p>
+</div>
+<div id="k-geq-3gamma_k-0" class="section level3 unnumbered">
+<h3>(5) <span class="math inline">\(k \geq 3\)</span>に対して、<span class="math inline">\(\gamma_{k} = 0\)</span>となることを確認せよ。</h3>
+<p><span class="math inline">\(k \geq 3\)</span>として、 <span class="math display">\[
+\begin{aligned}
+\gamma_{k} &amp;= \operatorname{Cov}(y_t, y_{t-k}) \\
+&amp;= \operatorname{Cov}(\mu+\epsilon_t+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2},
+\mu+\epsilon_{t-k}+\theta_1\epsilon_{t-k-1}+\theta_{2}\epsilon_{t-k-2}) \\
+&amp;= \operatorname{Cov}(\epsilon_t, \epsilon_{t-k}) + \operatorname{Cov}(\epsilon_t, \theta_1\epsilon_{t-k-1}) + \operatorname{Cov}(\epsilon_t, \theta_{2}\epsilon_{t-k-2}) \\
+&amp;+ \operatorname{Cov}(\theta_1\epsilon_{t-1}, \epsilon_{t-k}) + \operatorname{Cov}(\theta_1\epsilon_{t-1}, \theta_1\epsilon_{t-k-1}) + \operatorname{Cov}(\theta_1\epsilon_{t-1}, \theta_2\epsilon_{t-k-2}) \\ 
+&amp;+ \operatorname{Cov}(\theta_2\epsilon_{t-2}, \epsilon_{t-k}) + \operatorname{Cov}(\theta_2\epsilon_{t-2}, \theta_1\epsilon_{t-k-1}) + \operatorname{Cov}(\theta_2\epsilon_{t-2}, \theta_2\epsilon_{t-k-2}) \\
+&amp;= 0 (\because \epsilon の自己共分散は0)
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+<div id="arma11-y_t-c-y_t-1-epsilon_t-theta_1epsilon_t-1-epsilon_t-sim-w-.-n-.leftsigma2right" class="section level2 unnumbered">
+<h2>2.4. ARMA(1,1)過程 <span class="math display">\[y_{t} = c + y_{t-1} + \epsilon_{t} + \theta_1\epsilon_{t-1}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\]</span>について、以下の問いに答えよ。</h2>
+<p>こちらでも、定理2.3(p.34)の定常ARMA(p,q)過程の性質について確認しておきましょう。 <span class="math display">\[
+\begin{array}{l}
+{\text {1. } \mu=E\left(y_{t}\right)=\frac{c}{1-\phi_{1}-\phi_{2}-\cdots \phi_{p}}} \\
+{\text {2. } q+1次以降の自己共分散と自己相関はy_tが従うARMA過程のAR部分と} \\
+{\text {  } 同一の係数をもつ以下のp次差分方程式（ユール・ウォーカー方程式）に従う。}\\
+\begin{aligned} \gamma_{k} &amp;=\phi_{1} \gamma_{k-1}+\cdots+\phi_{p} \gamma_{k-p}, \quad k \geq q+1 \\ \rho_{k} &amp;=\phi_{1} \rho_{k-1}+\cdots+\phi_{p} \rho_{k-p}, \quad k \geq q+1 \end{aligned} \\
+{\text {3. } ARMA過程の自己相関は指数的に減衰する。}
+\end{array}
+\]</span></p>
 </div>
 </div>
             </section>

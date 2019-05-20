@@ -6,8 +6,8 @@ output:
 ---
 
 # 2. 問題(p.54) {-}
-どうも、令和初のGWで生活リズムが夜型にシフトしてしまっている[HRY](https://twitter.com/hiyakebaka)です。
-[前回](https://yahiroya.github.io/OkimotoBook/)の続きで、第2章の章末問題をやっていこうと思います。
+どうも、[HRY](https://twitter.com/hiyakebaka)です。
+[前回](https://yahiroya.github.io/OkimotoBook/)の投稿から間がかなり空いてしまいましたが、つづきの第2章の章末問題をやっていこうと思います。
 
 ## 2.1. AR(2)過程(2.18)の定常条件が(2.19)で与えられることを確認せよ。 {-}
 まず、(2.18)のAR(2) モデルが、
@@ -225,4 +225,54 @@ $$
 
 ## 2.3. MA(2)過程 $$y_{t}=\mu+\epsilon_{t}+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$$ について、以下の問いに答えよ。 {-}
 
+まず、問題に入る前に定理2.1(p.24)のMA(q)過程の性質の確認をしておきましょう。
+
+$$
+\begin{array}{l}
+{\text {1. } E(y_{t})=\mu} \\
+{\text {2. } \gamma_{0}=\operatorname{Var}\left(y_{t}\right)=\left(1+\theta_{1}^{2}+\cdots+\theta_{q}^{2}\right) \sigma^{2}} \\
+{\text {3. } \gamma_{k}=\left\{\begin{array}{ll}{\left(\theta_{k}+\theta_{1} \theta_{k+1}+\cdots+\theta_{q-k} \theta_{q}\right) \sigma^{2},} & {1 \leq k \leq q} \\ {0,} & {k \geq q+1}\end{array}\right.} \\
+{\text {4. } MA過程は常に定常} \\
+{\text {5. } \rho_{k}=\left\{\begin{array}{ll}{\frac{\theta_{k}+\theta_{1} \theta_{k+1}+\cdots+\theta_{q-k} \theta_{q}}{1+\theta_{1}^{2}+\cdots+\theta_{q}^{2}},} & {1 \leq k \leq q} \\ {0,} & {k \geq q+1}\end{array}\right.}
+\end{array}
+$$
+
+### (1) $E(y_{t})$を求めよ。{-}
+MA(q)過程の性質1より、$E(y_{t}) = \mu$となります。
+
+### (2) $\gamma_{0}$を求めよ。{-}
+性質2より、$\gamma_{0} = (1 + \theta_{1}^{2} + \theta_{2}^{2}) \sigma^{2}$となります。
+
+### (3) $\gamma_{1}$を求めよ。{-}
+性質3より、$\gamma_{1} = (\theta_{1} + \theta_{1} \theta_{2}) \sigma^{2}$となります。
+
+### (4) $\gamma_{2}$を求めよ。{-}
+性質3より、$\gamma_{2} = (\theta_{1} + \theta_{1}\theta_{2} + \theta_{2}) \sigma^{2}$となります。
+
+### (5) $k \geq 3$に対して、$\gamma_{k} = 0$となることを確認せよ。{-}
+$k \geq 3$として、
+$$
+\begin{aligned}
+\gamma_{k} &= \operatorname{Cov}(y_t, y_{t-k}) \\
+&= \operatorname{Cov}(\mu+\epsilon_t+\theta_1\epsilon_{t-1}+\theta_2\epsilon_{t-2},
+\mu+\epsilon_{t-k}+\theta_1\epsilon_{t-k-1}+\theta_{2}\epsilon_{t-k-2}) \\
+&= \operatorname{Cov}(\epsilon_t, \epsilon_{t-k}) + \operatorname{Cov}(\epsilon_t, \theta_1\epsilon_{t-k-1}) + \operatorname{Cov}(\epsilon_t, \theta_{2}\epsilon_{t-k-2}) \\
+&+ \operatorname{Cov}(\theta_1\epsilon_{t-1}, \epsilon_{t-k}) + \operatorname{Cov}(\theta_1\epsilon_{t-1}, \theta_1\epsilon_{t-k-1}) + \operatorname{Cov}(\theta_1\epsilon_{t-1}, \theta_2\epsilon_{t-k-2}) \\ 
+&+ \operatorname{Cov}(\theta_2\epsilon_{t-2}, \epsilon_{t-k}) + \operatorname{Cov}(\theta_2\epsilon_{t-2}, \theta_1\epsilon_{t-k-1}) + \operatorname{Cov}(\theta_2\epsilon_{t-2}, \theta_2\epsilon_{t-k-2}) \\
+&= 0 (\because \epsilon の自己共分散は0)
+\end{aligned}
+$$
+
+## 2.4. ARMA(1,1)過程 $$y_{t} = c + y_{t-1} + \epsilon_{t} + \theta_1\epsilon_{t-1}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)$$について、以下の問いに答えよ。{-}
+
+こちらでも、定理2.3(p.34)の定常ARMA(p,q)過程の性質について確認しておきましょう。
+$$
+\begin{array}{l}
+{\text {1. } \mu=E\left(y_{t}\right)=\frac{c}{1-\phi_{1}-\phi_{2}-\cdots \phi_{p}}} \\
+{\text {2. } q+1次以降の自己共分散と自己相関はy_tが従うARMA過程のAR部分と} \\
+{\text {  } 同一の係数をもつ以下のp次差分方程式（ユール・ウォーカー方程式）に従う。}\\
+\begin{aligned} \gamma_{k} &=\phi_{1} \gamma_{k-1}+\cdots+\phi_{p} \gamma_{k-p}, \quad k \geq q+1 \\ \rho_{k} &=\phi_{1} \rho_{k-1}+\cdots+\phi_{p} \rho_{k-p}, \quad k \geq q+1 \end{aligned} \\
+{\text {3. } ARMA過程の自己相関は指数的に減衰する。}
+\end{array}
+$$
 
