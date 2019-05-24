@@ -79,7 +79,15 @@
 <li><a href="#gamma_2">(4) <span class="math inline">\(\gamma_{2}\)</span>を求めよ。</a></li>
 <li><a href="#k-geq-3gamma_k-0">(5) <span class="math inline">\(k \geq 3\)</span>に対して、<span class="math inline">\(\gamma_{k} = 0\)</span>となることを確認せよ。</a></li>
 </ul></li>
-<li><a href="#arma11-y_t-c-y_t-1-epsilon_t-theta_1epsilon_t-1-epsilon_t-sim-w-.-n-.leftsigma2right">2.4. ARMA(1,1)過程 <span class="math display">\[y_{t} = c + y_{t-1} + \epsilon_{t} + \theta_1\epsilon_{t-1}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\]</span>について、以下の問いに答えよ。</a></li>
+<li><a href="#arma11-y_t-c-y_t-1-epsilon_t-theta_1epsilon_t-1-epsilon_t-sim-w-.-n-.leftsigma2right">2.4. ARMA(1,1)過程 <span class="math display">\[y_{t} = c + y_{t-1} + \epsilon_{t} + \theta_1\epsilon_{t-1}, \epsilon_{t} \sim W . N .\left(\sigma^{2}\right)\]</span>について、以下の問いに答えよ。</a><ul>
+<li class="chapter" data-level="" data-path=""><a href="#283129e5ae9ae5b8b8e69da1e4bbb6e38292e6b182e38281e38288e38082"><i class="fa fa-check"></i>(1)定常条件を求めよ。</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#283229e58f8de8bba2e58fafe883bde69da1e4bbb6e38292e6b182e38281e38288e38082"><i class="fa fa-check"></i>(2)反転可能条件を求めよ。</a></li>
+<li><a href="#mu">(3)<span class="math inline">\(\mu\)</span>を求めよ。</a></li>
+<li><a href="#gamma_0operatornamecovy_t-1-epsilon_t0-operatornamecovy_t-1-epsilon_t-1sigma2">(4)<span class="math inline">\(\gamma_0\)</span>を求めよ。(ヒント：<span class="math inline">\(\operatorname{Cov}(y_{t-1}, \epsilon_t)=0, ~ \operatorname{Cov}(y_{t-1}, \epsilon_{t-1})=\sigma^{2}\)</span>に注意すること)</a></li>
+<li><a href="#gamma_1-1">(5)<span class="math inline">\(\gamma_1\)</span>を求めよ。</a></li>
+<li class="chapter" data-level="0.0.1" data-path=""><a href="#phi_1"><i class="fa fa-check"></i><b>0.0.1</b> (6)<span class="math inline">\(\phi_1\)</span>を求めよ。</a></li>
+<li><a href="#k-geq-2rho_k">(7)ユール・ウォーカー方程式を用いて、<span class="math inline">\(k \geq 2\)</span>において<span class="math inline">\(\rho_k\)</span>を求めよ。</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -308,6 +316,87 @@ z &amp;= -2 \Rightarrow |z| &gt; 1
 {\text {3. } ARMA過程の自己相関は指数的に減衰する。}
 \end{array}
 \]</span></p>
+<div id="283129e5ae9ae5b8b8e69da1e4bbb6e38292e6b182e38281e38288e38082" class="section level3 unnumbered">
+<h3>(1)定常条件を求めよ。</h3>
+<p>AR過程部分の特性方程式より、 <span class="math display">\[
+\begin{aligned}
+1 - \phi_1z &amp;= 0 \\
+z &amp;= \phi_1^{-1}
+\end{aligned}
+\]</span> <span class="math inline">\(|z| &gt; 1\)</span>となればよいので、定常条件は <span class="math display">\[
+|\phi_1^{-1}| &gt; 1 \Leftrightarrow |\phi_1| &lt; 1
+\]</span> となります。</p>
+</div>
+<div id="283229e58f8de8bba2e58fafe883bde69da1e4bbb6e38292e6b182e38281e38288e38082" class="section level3 unnumbered">
+<h3>(2)反転可能条件を求めよ。</h3>
+<p>MA過程部分の特性方程式より、 <span class="math display">\[
+\begin{aligned}
+1 + \theta_1z &amp;= 0 \\
+z &amp;= \theta_1^{-1}
+\end{aligned}
+\]</span> 同様にして、<span class="math inline">\(|\theta_1| &lt; 1 ~ (\because |z| &lt; 1)\)</span></p>
+</div>
+<div id="mu" class="section level3 unnumbered">
+<h3>(3)<span class="math inline">\(\mu\)</span>を求めよ。</h3>
+<p>定常ARMA(p, q)過程の性質1(p.35)より、 <span class="math display">\[
+\mu = \frac{c}{1 - \phi_1}
+\]</span> となります。</p>
+</div>
+<div id="gamma_0operatornamecovy_t-1-epsilon_t0-operatornamecovy_t-1-epsilon_t-1sigma2" class="section level3 unnumbered">
+<h3>(4)<span class="math inline">\(\gamma_0\)</span>を求めよ。(ヒント：<span class="math inline">\(\operatorname{Cov}(y_{t-1}, \epsilon_t)=0, ~ \operatorname{Cov}(y_{t-1}, \epsilon_{t-1})=\sigma^{2}\)</span>に注意すること)</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\gamma_{0t} &amp;= \operatorname{Var}(y_t) \\
+&amp;= \operatorname{Var}(y_{t-1} + \epsilon_t + \theta_1\epsilon_{t-1}) \\
+&amp;= \phi_1^{2}\operatorname{Var}(y_{t-1}) + \operatorname{Var}(\epsilon_t) + \theta_1^{2}\operatorname{Var}(\epsilon_{t-1}) \\ 
+&amp;+ 2\phi_1\operatorname{Cov}(y_{t-1}, \epsilon_t) + 2\phi_1\theta_1\operatorname{Cov}(y_{t-1}, \epsilon_{t-1}) + 2\theta_1\operatorname{Cov}(\epsilon_t, \epsilon_{t-1}) \\
+&amp;= \phi_1^2\operatorname{Var}(y_{t-1}) + (1+\theta_1^{2}+2\phi_1\theta_1)\sigma^2
+\end{aligned}
+\]</span> <span class="math inline">\(y_t\)</span>が定常な場合、<span class="math inline">\(\gamma_0 = \operatorname{Var}(y_t) = \operatorname{Var}(y_{t-1})\)</span>なので、 <span class="math display">\[
+\begin{aligned}
+(1-\phi_1^{2})\gamma_0 &amp;= (1+\theta_1^2+2\phi_1\theta_1)\sigma^2 \\
+\gamma_0 &amp;= \frac{(1+\theta_1^2+2\phi_1\theta_1)\sigma^2}{1-\phi_1^2}
+\end{aligned}
+\]</span> となります。</p>
+</div>
+<div id="gamma_1-1" class="section level3 unnumbered">
+<h3>(5)<span class="math inline">\(\gamma_1\)</span>を求めよ。</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\gamma_{1t} &amp;= \operatorname{Cov}(y_t, y_{t-1}) \\
+&amp;= \operatorname{Cov}(\phi_1y_{t-1}+\epsilon_t+\theta_1\epsilon_{t-1}, ~ y_{t-1}) \\
+&amp;= \operatorname{Cov}(\phi_1y_{t-1}, y_{t-1}) + \operatorname{Cov}(\epsilon_t, y_{t-1}) + \operatorname{Cov}(\theta_1\epsilon_{t-1}, y_{t-1}) \\
+&amp;= \phi_1\operatorname{Var}(y_{t-1}) + \theta_1\sigma^2
+\end{aligned}
+\]</span> 先程の（4）の<span class="math inline">\(\gamma_0\)</span>を用いて、 <span class="math display">\[
+\begin{aligned}
+\gamma_1 &amp;= \phi_1\gamma_0 + \theta_1\sigma^2 ~ (\because y_tは定常) \\
+&amp;= \frac{(1+\theta_1^2+2\phi_1\theta_1)\phi_1\sigma^2}{1-\phi_1^2} + \frac{\theta_1\sigma^2-\theta_1\phi_1^2\sigma^2}{1-\phi_1^2} \\
+&amp;= \frac{(\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1)\sigma^2}{1-\phi_1^2}
+\end{aligned}
+\]</span> となります。</p>
+</div>
+<div id="phi_1" class="section level3">
+<h3><span class="header-section-number">0.0.1</span> (6)<span class="math inline">\(\phi_1\)</span>を求めよ。</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\rho_1 &amp;= \frac{\gamma_1}{\gamma_0} \\
+&amp;= \frac{(\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1)\sigma^2}{1-\phi_1^2} \cdot \frac{1-\phi_1^2}{(1+\theta_1^2+2\phi_1\theta_1)\sigma^2} \\
+&amp;= \frac{\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1}{1+2\phi_1\theta_1+\theta_1^2}
+\end{aligned}
+\]</span></p>
+</div>
+<div id="k-geq-2rho_k" class="section level3 unnumbered">
+<h3>(7)ユール・ウォーカー方程式を用いて、<span class="math inline">\(k \geq 2\)</span>において<span class="math inline">\(\rho_k\)</span>を求めよ。</h3>
+<p>性質2(p.35)より、<span class="math inline">\(k \geq 2\)</span>において、 <span class="math display">\[
+\rho_k = \phi_1\rho_{k-1}
+\]</span> これは初項<span class="math inline">\(\phi_1\rho_1\)</span>, 公比<span class="math inline">\(\phi_1\)</span>の等比数列なので、 <span class="math display">\[
+\begin{aligned}
+\rho_k &amp;= \phi_1\rho_1 \cdot \phi_1^{k-2} \\
+&amp;= \left( \frac{\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1}{1+2\phi_1\theta_1+\theta_1^{2}} \right)\phi_1^{k-1} 
+\end{aligned}
+\]</span> となります。</p>
+</div>
 </div>
 </div>
             </section>

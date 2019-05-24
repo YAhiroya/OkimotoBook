@@ -276,3 +276,101 @@ $$
 \end{array}
 $$
 
+### (1)定常条件を求めよ。{-}
+
+AR過程部分の特性方程式より、
+$$
+\begin{aligned}
+1 - \phi_1z &= 0 \\
+z &= \phi_1^{-1}
+\end{aligned}
+$$
+$|z| > 1$となればよいので、定常条件は
+$$
+|\phi_1^{-1}| > 1 \Leftrightarrow |\phi_1| < 1
+$$
+となります。
+
+### (2)反転可能条件を求めよ。{-}
+
+MA過程部分の特性方程式より、
+$$
+\begin{aligned}
+1 + \theta_1z &= 0 \\
+z &= \theta_1^{-1}
+\end{aligned}
+$$
+同様にして、$|\theta_1| < 1 ~ (\because |z| < 1)$
+
+### (3)$\mu$を求めよ。{-}
+
+定常ARMA(p, q)過程の性質1(p.35)より、
+$$
+\mu = \frac{c}{1 - \phi_1}
+$$
+となります。
+
+### (4)$\gamma_0$を求めよ。(ヒント：$\operatorname{Cov}(y_{t-1}, \epsilon_t)=0, ~ \operatorname{Cov}(y_{t-1}, \epsilon_{t-1})=\sigma^{2}$に注意すること){-}
+
+$$
+\begin{aligned}
+\gamma_{0t} &= \operatorname{Var}(y_t) \\
+&= \operatorname{Var}(y_{t-1} + \epsilon_t + \theta_1\epsilon_{t-1}) \\
+&= \phi_1^{2}\operatorname{Var}(y_{t-1}) + \operatorname{Var}(\epsilon_t) + \theta_1^{2}\operatorname{Var}(\epsilon_{t-1}) \\ 
+&+ 2\phi_1\operatorname{Cov}(y_{t-1}, \epsilon_t) + 2\phi_1\theta_1\operatorname{Cov}(y_{t-1}, \epsilon_{t-1}) + 2\theta_1\operatorname{Cov}(\epsilon_t, \epsilon_{t-1}) \\
+&= \phi_1^2\operatorname{Var}(y_{t-1}) + (1+\theta_1^{2}+2\phi_1\theta_1)\sigma^2
+\end{aligned}
+$$
+$y_t$が定常な場合、$\gamma_0 = \operatorname{Var}(y_t) = \operatorname{Var}(y_{t-1})$なので、
+$$
+\begin{aligned}
+(1-\phi_1^{2})\gamma_0 &= (1+\theta_1^2+2\phi_1\theta_1)\sigma^2 \\
+\gamma_0 &= \frac{(1+\theta_1^2+2\phi_1\theta_1)\sigma^2}{1-\phi_1^2}
+\end{aligned}
+$$
+となります。
+
+### (5)$\gamma_1$を求めよ。{-}
+
+$$
+\begin{aligned}
+\gamma_{1t} &= \operatorname{Cov}(y_t, y_{t-1}) \\
+&= \operatorname{Cov}(\phi_1y_{t-1}+\epsilon_t+\theta_1\epsilon_{t-1}, ~ y_{t-1}) \\
+&= \operatorname{Cov}(\phi_1y_{t-1}, y_{t-1}) + \operatorname{Cov}(\epsilon_t, y_{t-1}) + \operatorname{Cov}(\theta_1\epsilon_{t-1}, y_{t-1}) \\
+&= \phi_1\operatorname{Var}(y_{t-1}) + \theta_1\sigma^2
+\end{aligned}
+$$
+先程の（4）の$\gamma_0$を用いて、
+$$
+\begin{aligned}
+\gamma_1 &= \phi_1\gamma_0 + \theta_1\sigma^2 ~ (\because y_tは定常) \\
+&= \frac{(1+\theta_1^2+2\phi_1\theta_1)\phi_1\sigma^2}{1-\phi_1^2} + \frac{\theta_1\sigma^2-\theta_1\phi_1^2\sigma^2}{1-\phi_1^2} \\
+&= \frac{(\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1)\sigma^2}{1-\phi_1^2}
+\end{aligned}
+$$
+となります。
+
+### (6)$\phi_1$を求めよ。
+
+$$
+\begin{aligned}
+\rho_1 &= \frac{\gamma_1}{\gamma_0} \\
+&= \frac{(\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1)\sigma^2}{1-\phi_1^2} \cdot \frac{1-\phi_1^2}{(1+\theta_1^2+2\phi_1\theta_1)\sigma^2} \\
+&= \frac{\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1}{1+2\phi_1\theta_1+\theta_1^2}
+\end{aligned}
+$$
+
+### (7)ユール・ウォーカー方程式を用いて、$k \geq 2$において$\rho_k$を求めよ。{-}
+
+性質2(p.35)より、$k \geq 2$において、
+$$
+\rho_k = \phi_1\rho_{k-1}
+$$
+これは初項$\phi_1\rho_1$, 公比$\phi_1$の等比数列なので、
+$$
+\begin{aligned}
+\rho_k &= \phi_1\rho_1 \cdot \phi_1^{k-2} \\
+&= \left( \frac{\phi_1+\theta_1^2\phi_1+\theta_1\phi_1^2+\theta_1}{1+2\phi_1\theta_1+\theta_1^{2}} \right)\phi_1^{k-1} 
+\end{aligned}
+$$
+となります。
