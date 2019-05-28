@@ -104,7 +104,7 @@ $y_{t} \sim i i d\left(\mu, \sigma^{2}\right)$
 - intrate: コールレート
 
 ```{r}
-economicdata <- read_csv("~\\OkimotoBook\\economicdata.csv")
+economicdata <- read_csv("economicdata.csv")
 head(economicdata)
 ```
 *(1) 図1.1と同様なグラフを描け*
