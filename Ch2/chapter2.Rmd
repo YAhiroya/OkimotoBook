@@ -401,17 +401,17 @@ arma_2_1 <- arima(diff_indprod, order = c(2, 0, 1))
 # ARMA(2, 2)
 arma_2_2 <- arima(diff_indprod, order = c(2, 0, 2))
 
-# 図2.5
-## (a)標本自己相関
+#- 図2.5
+# (a)標本自己相関
 acf(diff_indprod, type = "correlation", main="(a)標本自己相関",
     xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
-## (b)標本偏自己相関
+# (b)標本偏自己相関
 pacf(diff_indprod, main="(b)標本偏自己相関",
      xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
-## (c)AR(4)モデルの残差の診断
+# (c)AR(4)モデルの残差の診断
 acf(ar_4$residuals, type = "correlation", main="(c)AR(4)モデルの残差の診断",
     xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
-## (d)ARMA(1,2)モデルの残差の診断
+# (d)ARMA(1,2)モデルの残差の診断
 acf(arma_1_2$residuals, type = "correlation", main="(d)ARMA(1,2)モデルの残差の診断",
     xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
 ```
