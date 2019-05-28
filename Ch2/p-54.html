@@ -474,20 +474,20 @@ arma_2_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">
 <span class="co"># ARMA(2, 2)</span>
 arma_2_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">arima</span>(diff_indprod, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>))
 
-<span class="co"># 図2.5</span>
-## (a)標本自己相関
+<span class="co">#- 図2.5</span>
+<span class="co"># (a)標本自己相関</span>
 <span class="kw">acf</span>(diff_indprod, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;(a)標本自己相関&quot;</span>,
     <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
 <p><img src="chapter2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## (b)標本偏自己相関
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (b)標本偏自己相関</span>
 <span class="kw">pacf</span>(diff_indprod, <span class="dt">main=</span><span class="st">&quot;(b)標本偏自己相関&quot;</span>,
      <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
 <p><img src="chapter2_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## (c)AR(4)モデルの残差の診断
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (c)AR(4)モデルの残差の診断</span>
 <span class="kw">acf</span>(ar_<span class="dv">4</span><span class="op">$</span>residuals, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;(c)AR(4)モデルの残差の診断&quot;</span>,
     <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
 <p><img src="chapter2_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## (d)ARMA(1,2)モデルの残差の診断
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (d)ARMA(1,2)モデルの残差の診断</span>
 <span class="kw">acf</span>(arma_1_<span class="dv">2</span><span class="op">$</span>residuals, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;(d)ARMA(1,2)モデルの残差の診断&quot;</span>,
     <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
 <p><img src="chapter2_files/figure-html/unnamed-chunk-1-4.png" width="672" /> これらのコードから、図2.5の4種類のグラフと同様なものが得られます。表2.3については、</p>
