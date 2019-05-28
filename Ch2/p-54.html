@@ -48,6 +48,43 @@
 
 
 
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
 
 </head>
 
@@ -88,6 +125,11 @@
 <li class="chapter" data-level="0.0.1" data-path=""><a href="#phi_1"><i class="fa fa-check"></i><b>0.0.1</b> (6)<span class="math inline">\(\phi_1\)</span>を求めよ。</a></li>
 <li><a href="#k-geq-2rho_k">(7)ユール・ウォーカー方程式を用いて、<span class="math inline">\(k \geq 2\)</span>において<span class="math inline">\(\rho_k\)</span>を求めよ。</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#1.5"><i class="fa fa-check"></i>2.5 問題1.5でダウンロードしたデータを用いて以下の問いに答えよ。</a><ul>
+<li class="chapter" data-level="" data-path=""><a href="#2.32.5"><i class="fa fa-check"></i>(1)表2.3と図2.5の結果を比較せよ。</a></li>
+<li class="chapter" data-level="" data-path=""><a href="#ar4arma1210"><i class="fa fa-check"></i>(2)AR(4)モデルとARMA(1,2)モデルの残差について、10期までの自己相関をかばん検定せよ。</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path=""><a href="#section"><i class="fa fa-check"></i>2.6</a></li>
 </ul></li>
 </ul>
 
@@ -397,6 +439,124 @@ z &amp;= \theta_1^{-1}
 \end{aligned}
 \]</span> となります。</p>
 </div>
+</div>
+<div id="1.5" class="section level2 unnumbered">
+<h2>2.5 問題1.5でダウンロードしたデータを用いて以下の問いに答えよ。</h2>
+<p>ここで、いよいよRの出番です。</p>
+<div id="2.32.5" class="section level3 unnumbered">
+<h3>(1)表2.3と図2.5の結果を比較せよ。</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 外部パッケージの読み込み</span>
+<span class="kw">library</span>(readr)
+<span class="co"># 1.3のデータの読み込み</span>
+economicdata &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;economicdata.csv&quot;</span>)</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   date = col_character(),
+##   topix = col_double(),
+##   exrate = col_double(),
+##   indprod = col_double(),
+##   cpi = col_double(),
+##   saunemp = col_double(),
+##   intrate = col_double()
+## )</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># indprod変数の対数差分系列(鉱工業生産指数の成長率)</span>
+diff_indprod &lt;-<span class="st"> </span><span class="kw">diff</span>(economicdata<span class="op">$</span>indprod)
+<span class="co"># diff_indprodのAR(4)モデル</span>
+ar_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">arima</span>(diff_indprod, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>))
+<span class="co"># diff_indprodのARMA(1,2)モデル</span>
+arma_1_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">arima</span>(diff_indprod, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>))
+<span class="co"># MA(3)</span>
+ma_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">arima</span>(diff_indprod, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">3</span>))
+<span class="co"># ARMA(1, 1)</span>
+arma_1_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">arima</span>(diff_indprod, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>))
+<span class="co"># ARMA(2, 1)</span>
+arma_2_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">arima</span>(diff_indprod, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>))
+<span class="co"># ARMA(2, 2)</span>
+arma_2_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">arima</span>(diff_indprod, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>))
+
+<span class="co"># 図2.5</span>
+## (a)標本自己相関
+<span class="kw">acf</span>(diff_indprod, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;(a)標本自己相関&quot;</span>,
+    <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
+<p><img src="chapter2_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## (b)標本偏自己相関
+<span class="kw">pacf</span>(diff_indprod, <span class="dt">main=</span><span class="st">&quot;(b)標本偏自己相関&quot;</span>,
+     <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
+<p><img src="chapter2_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## (c)AR(4)モデルの残差の診断
+<span class="kw">acf</span>(ar_<span class="dv">4</span><span class="op">$</span>residuals, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;(c)AR(4)モデルの残差の診断&quot;</span>,
+    <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
+<p><img src="chapter2_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## (d)ARMA(1,2)モデルの残差の診断
+<span class="kw">acf</span>(arma_1_<span class="dv">2</span><span class="op">$</span>residuals, <span class="dt">type =</span> <span class="st">&quot;correlation&quot;</span>, <span class="dt">main=</span><span class="st">&quot;(d)ARMA(1,2)モデルの残差の診断&quot;</span>,
+    <span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">20</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>), <span class="dt">xlab=</span><span class="st">&quot;ラグ&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;自己相関&quot;</span>)</code></pre></div>
+<p><img src="chapter2_files/figure-html/unnamed-chunk-1-4.png" width="672" /> これらのコードから、図2.5の4種類のグラフと同様なものが得られます。表2.3については、</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># AIC</span>
+aic_ar4 &lt;-<span class="st"> </span><span class="kw">round</span>(ar_<span class="dv">4</span><span class="op">$</span>aic, <span class="dt">digits =</span> <span class="dv">0</span>)
+aic_ma3 &lt;-<span class="st"> </span><span class="kw">round</span>(ma_<span class="dv">3</span><span class="op">$</span>aic, <span class="dt">digits =</span> <span class="dv">0</span>)
+aic_arma11 &lt;-<span class="st"> </span><span class="kw">round</span>(arma_1_<span class="dv">1</span><span class="op">$</span>aic, <span class="dt">digits =</span> <span class="dv">0</span>)
+aic_arma21 &lt;-<span class="st"> </span><span class="kw">round</span>(arma_2_<span class="dv">1</span><span class="op">$</span>aic, <span class="dt">digits =</span> <span class="dv">0</span>)
+aic_arma12 &lt;-<span class="st"> </span><span class="kw">round</span>(arma_1_<span class="dv">2</span><span class="op">$</span>aic, <span class="dt">digits =</span> <span class="dv">0</span>)
+aic_arma22 &lt;-<span class="st"> </span><span class="kw">round</span>(arma_2_<span class="dv">2</span><span class="op">$</span>aic, <span class="dt">digits =</span> <span class="dv">0</span>)
+vec_aic &lt;-<span class="st"> </span><span class="kw">c</span>(aic_ar4, aic_ma3, aic_arma11, aic_arma21, aic_arma12, aic_arma22)
+
+<span class="co"># SIC(BIC)</span>
+sic_ar4 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">BIC</span>(ar_<span class="dv">4</span>), <span class="dt">digits =</span> <span class="dv">0</span>)
+sic_ma3 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">BIC</span>(ma_<span class="dv">3</span>), <span class="dt">digits =</span> <span class="dv">0</span>)
+sic_arma11 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">BIC</span>(arma_1_<span class="dv">1</span>), <span class="dt">digits =</span> <span class="dv">0</span>)
+sic_arma21 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">BIC</span>(arma_2_<span class="dv">1</span>), <span class="dt">digits =</span> <span class="dv">0</span>)
+sic_arma12 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">BIC</span>(arma_1_<span class="dv">2</span>), <span class="dt">digits =</span> <span class="dv">0</span>)
+sic_arma22 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">BIC</span>(arma_2_<span class="dv">2</span>), <span class="dt">digits =</span> <span class="dv">0</span>)
+vec_sic &lt;-<span class="st"> </span><span class="kw">c</span>(sic_ar4, sic_ma3, sic_arma11, sic_arma21, sic_arma12, sic_arma22)
+
+<span class="co"># 表2.3の作成</span>
+table_ic &lt;-<span class="st"> </span><span class="kw">rbind.data.frame</span>(vec_aic, vec_sic)
+table_ic &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">c</span>(<span class="st">&quot;AIC&quot;</span>, <span class="st">&quot;SIC&quot;</span>), table_ic)
+<span class="kw">colnames</span>(table_ic) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;モデル&quot;</span>, <span class="st">&quot;AR(4)&quot;</span>, <span class="st">&quot;MA(3)&quot;</span>, <span class="st">&quot;ARMA(1,1)&quot;</span>, <span class="st">&quot;ARMA(2,1)&quot;</span>, <span class="st">&quot;ARMA(1,2)&quot;</span>, <span class="st">&quot;ARMA(2,2)&quot;</span>)
+
+table_ic</code></pre></div>
+<pre><code>##   モデル AR(4) MA(3) ARMA(1,1) ARMA(2,1) ARMA(1,2) ARMA(2,2)
+## 1    AIC  1062  1067      1095      1079      1061      1067
+## 2    SIC  1085  1086      1110      1098      1080      1091</code></pre>
+<p>沖本本の表2.3とは異なり、どちらの情報量基準でもARMA(1,2)モデルが相対的にベストなモデルとなりました。なんでだろう？？もし、理由が分かる方などがいらっしゃいましたら、<a href="https://twitter.com/hiyakebaka">私のtwitter</a>にDMやコメントとしてご指摘いただけたら幸いです。</p>
+</div>
+<div id="ar4arma1210" class="section level3 unnumbered">
+<h3>(2)AR(4)モデルとARMA(1,2)モデルの残差について、10期までの自己相関をかばん検定せよ。</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># AR(4)モデルの残差のかばん検定</span>
+resid_ar4 &lt;-<span class="st"> </span>ar_<span class="dv">4</span><span class="op">$</span>residuals
+lag &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+box.t_ar4 &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">as.matrix</span>(lag), <span class="dv">1</span>, <span class="cf">function</span>(x) {
+  tmp =<span class="st"> </span><span class="kw">Box.test</span>(resid_ar4, <span class="dt">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>, <span class="dt">lag =</span> x)
+  <span class="kw">return</span>(<span class="kw">c</span>(<span class="kw">round</span>(tmp<span class="op">$</span>statistic, <span class="dt">digits =</span> <span class="dv">2</span>), <span class="kw">round</span>(tmp<span class="op">$</span>p.value, <span class="dt">digits =</span> <span class="dv">3</span>)))
+})
+box.t_ar4_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(box.t_ar4)
+<span class="kw">colnames</span>(box.t_ar4_df) &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+<span class="kw">rownames</span>(box.t_ar4_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Q(m)&quot;</span>, <span class="st">&quot;p-value&quot;</span>)
+box.t_ar4_df</code></pre></div>
+<pre><code>##             1     2     3     4     5     6     7     8     9     10
+## Q(m)    0.080 0.160 0.160 0.190 0.640 0.650 2.120 8.010 8.020 12.730
+## p-value 0.772 0.925 0.984 0.996 0.986 0.996 0.953 0.432 0.532  0.239</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ARMA(1,2)モデルの残差のかばん検定</span>
+resid_arma12 &lt;-<span class="st"> </span>arma_1_<span class="dv">2</span><span class="op">$</span>residuals
+box.t_arma12 &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">as.matrix</span>(lag), <span class="dv">1</span>, <span class="cf">function</span>(x) {
+  tmp =<span class="st"> </span><span class="kw">Box.test</span>(resid_arma12, <span class="dt">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>, <span class="dt">lag =</span> x)
+  <span class="kw">return</span>(<span class="kw">c</span>(<span class="kw">round</span>(tmp<span class="op">$</span>statistic, <span class="dt">digits =</span> <span class="dv">2</span>), <span class="kw">round</span>(tmp<span class="op">$</span>p.value, <span class="dt">digits =</span> <span class="dv">3</span>)))
+})
+box.t_arma12_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(box.t_arma12)
+<span class="kw">colnames</span>(box.t_arma12_df) &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+<span class="kw">rownames</span>(box.t_arma12_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Q(m)&quot;</span>, <span class="st">&quot;p-value&quot;</span>)
+box.t_arma12_df</code></pre></div>
+<pre><code>##             1     2     3    4     5     6    7     8     9     10
+## Q(m)    0.020 0.060 0.530 0.53 2.970 3.020 4.09 8.920 8.930 11.590
+## p-value 0.883 0.972 0.911 0.97 0.705 0.806 0.77 0.349 0.443  0.313</code></pre>
+<p>AR(4)モデル、ARMA(1,2)モデルともに10期までのかばん検定のp値が0.05を超えており、<span class="math inline">\(H_0:\rho_1=\rho_2=\cdots=\rho_m=0\)</span>という帰無仮説は棄却されず、モデル残差は10期までのラグ次数それぞれにおいて有意な自己相関を持たないと分かります。モデル残差に有意な自己相関がみられる場合は、そのラグ次数p期までは説明できるモデルという認識をしなければなりません。（p期以前は有意な自己相関を持たないとき）</p>
+<p>結論としては、どちらの時系列過程も1期から10期までについては説明できるモデルとして適切なものであるといえます。</p>
+</div>
+</div>
+<div id="section" class="section level2 unnumbered">
+<h2>2.6</h2>
+<p>問2.6については対象とするarma.xlsファイルを入手できなかったため割愛します。</p>
+<p>3章の問題もできるだけ早く取り組めたらと思います。（大抵、スローペースです．．．）</p>
 </div>
 </div>
             </section>

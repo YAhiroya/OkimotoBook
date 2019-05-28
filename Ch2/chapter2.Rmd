@@ -374,3 +374,109 @@ $$
 \end{aligned}
 $$
 となります。
+
+## 2.5 問題1.5でダウンロードしたデータを用いて以下の問いに答えよ。{-}
+
+ここで、いよいよRの出番です。
+
+### (1)表2.3と図2.5の結果を比較せよ。{-}
+
+```{r}
+# 外部パッケージの読み込み
+library(readr)
+# 1.3のデータの読み込み
+economicdata <- read_csv("economicdata.csv")
+# indprod変数の対数差分系列(鉱工業生産指数の成長率)
+diff_indprod <- diff(economicdata$indprod)
+# diff_indprodのAR(4)モデル
+ar_4 <- arima(diff_indprod, order = c(4, 0, 0))
+# diff_indprodのARMA(1,2)モデル
+arma_1_2 <- arima(diff_indprod, order = c(1, 0, 2))
+# MA(3)
+ma_3 <- arima(diff_indprod, order = c(0, 0, 3))
+# ARMA(1, 1)
+arma_1_1 <- arima(diff_indprod, order = c(1, 0, 1))
+# ARMA(2, 1)
+arma_2_1 <- arima(diff_indprod, order = c(2, 0, 1))
+# ARMA(2, 2)
+arma_2_2 <- arima(diff_indprod, order = c(2, 0, 2))
+
+# 図2.5
+## (a)標本自己相関
+acf(diff_indprod, type = "correlation", main="(a)標本自己相関",
+    xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
+## (b)標本偏自己相関
+pacf(diff_indprod, main="(b)標本偏自己相関",
+     xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
+## (c)AR(4)モデルの残差の診断
+acf(ar_4$residuals, type = "correlation", main="(c)AR(4)モデルの残差の診断",
+    xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
+## (d)ARMA(1,2)モデルの残差の診断
+acf(arma_1_2$residuals, type = "correlation", main="(d)ARMA(1,2)モデルの残差の診断",
+    xlim=c(1, 20), ylim=c(-0.5, 0.5), xlab="ラグ", ylab="自己相関")
+```
+これらのコードから、図2.5の4種類のグラフと同様なものが得られます。表2.3については、
+```{r}
+# AIC
+aic_ar4 <- round(ar_4$aic, digits = 0)
+aic_ma3 <- round(ma_3$aic, digits = 0)
+aic_arma11 <- round(arma_1_1$aic, digits = 0)
+aic_arma21 <- round(arma_2_1$aic, digits = 0)
+aic_arma12 <- round(arma_1_2$aic, digits = 0)
+aic_arma22 <- round(arma_2_2$aic, digits = 0)
+vec_aic <- c(aic_ar4, aic_ma3, aic_arma11, aic_arma21, aic_arma12, aic_arma22)
+
+# SIC(BIC)
+sic_ar4 <- round(BIC(ar_4), digits = 0)
+sic_ma3 <- round(BIC(ma_3), digits = 0)
+sic_arma11 <- round(BIC(arma_1_1), digits = 0)
+sic_arma21 <- round(BIC(arma_2_1), digits = 0)
+sic_arma12 <- round(BIC(arma_1_2), digits = 0)
+sic_arma22 <- round(BIC(arma_2_2), digits = 0)
+vec_sic <- c(sic_ar4, sic_ma3, sic_arma11, sic_arma21, sic_arma12, sic_arma22)
+
+# 表2.3の作成
+table_ic <- rbind.data.frame(vec_aic, vec_sic)
+table_ic <- cbind(c("AIC", "SIC"), table_ic)
+colnames(table_ic) <- c("モデル", "AR(4)", "MA(3)", "ARMA(1,1)", "ARMA(2,1)", "ARMA(1,2)", "ARMA(2,2)")
+
+table_ic
+```
+沖本本の表2.3とは異なり、どちらの情報量基準でもARMA(1,2)モデルが相対的にベストなモデルとなりました。なんでだろう？？もし、理由が分かる方などがいらっしゃいましたら、[私のtwitter](https://twitter.com/hiyakebaka)にDMやコメントとしてご指摘いただけたら幸いです。
+
+### (2)AR(4)モデルとARMA(1,2)モデルの残差について、10期までの自己相関をかばん検定せよ。{-}
+
+```{r}
+# AR(4)モデルの残差のかばん検定
+resid_ar4 <- ar_4$residuals
+lag <- 1:10
+box.t_ar4 <- apply(as.matrix(lag), 1, function(x) {
+  tmp = Box.test(resid_ar4, type = "Ljung-Box", lag = x)
+  return(c(round(tmp$statistic, digits = 2), round(tmp$p.value, digits = 3)))
+})
+box.t_ar4_df <- data.frame(box.t_ar4)
+colnames(box.t_ar4_df) <- 1:10
+rownames(box.t_ar4_df) <- c("Q(m)", "p-value")
+box.t_ar4_df
+
+# ARMA(1,2)モデルの残差のかばん検定
+resid_arma12 <- arma_1_2$residuals
+box.t_arma12 <- apply(as.matrix(lag), 1, function(x) {
+  tmp = Box.test(resid_arma12, type = "Ljung-Box", lag = x)
+  return(c(round(tmp$statistic, digits = 2), round(tmp$p.value, digits = 3)))
+})
+box.t_arma12_df <- data.frame(box.t_arma12)
+colnames(box.t_arma12_df) <- 1:10
+rownames(box.t_arma12_df) <- c("Q(m)", "p-value")
+box.t_arma12_df
+
+```
+AR(4)モデル、ARMA(1,2)モデルともに10期までのかばん検定のp値が0.05を超えており、$H_0:\rho_1=\rho_2=\cdots=\rho_m=0$という帰無仮説は棄却されず、モデル残差は10期までのラグ次数それぞれにおいて有意な自己相関を持たないと分かります。モデル残差に有意な自己相関がみられる場合は、そのラグ次数p期までは説明できるモデルという認識をしなければなりません。（p期以前は有意な自己相関を持たないとき）
+
+結論としては、どちらの時系列過程も1期から10期までについては説明できるモデルとして適切なものであるといえます。
+
+## 2.6{-}
+
+問2.6については対象とするarma.xlsファイルを入手できなかったため割愛します。
+
+3章の問題もできるだけ早く取り組めたらと思います。（大抵、スローペースです．．．）
